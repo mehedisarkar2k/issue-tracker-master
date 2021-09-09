@@ -12,6 +12,9 @@ function submitIssue(e) {
   const status = "Open";
 
   const issue = { id, description, severity, assignedTo, status };
+
+  if (!description || !assignedTo) return;
+
   let issues = [];
 
   if (localStorage.getItem("issues")) {
@@ -45,9 +48,13 @@ const deleteIssue = (id) => {
 };
 
 const fetchIssues = () => {
-  const issues = JSON.parse(localStorage.getItem("issues"));
+  let issues = JSON.parse(localStorage.getItem("issues"));
   const issuesList = document.getElementById("issuesList");
   issuesList.innerHTML = "";
+
+  if (!issues) {
+    issues = [];
+  }
 
   for (var i = 0; i < issues.length; i++) {
     const { id, description, severity, assignedTo, status } = issues[i];
